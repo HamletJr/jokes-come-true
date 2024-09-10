@@ -3,7 +3,7 @@
 **NPM:**    2306275746<br>
 **Kelas:**  PBP F<br>
 
-Hasil proyek dapat dilihat pada **[link berikut](https://www.google.com)**.
+Hasil proyek dapat dilihat pada [link berikut](http://joshua-montolalu-jokescometrue.pbp.cs.ui.ac.id/).
 
 ## Tugas 2
 ### 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
@@ -11,7 +11,7 @@ Hasil proyek dapat dilihat pada **[link berikut](https://www.google.com)**.
 2. Setelah itu, saya menambahkan file `.gitignore` dan `README.md`.
 3. Saya membuat proyek Django baru dengan perintah `django-admin startproject jokes-come-true .` dan menambahkan file `requirements.txt`.
 4. Untuk membuat aplikasi bernama `main`, saya menjalankan perintah `python manage.py startapp main`.
-5. Untuk membuat model baru, saya memodifikasi file `models.py` dalam aplikasi `main` sebagai berikut:
+5. Untuk membuat model baru, saya memodifikasi file `models.py` dalam aplikasi `main` dan mendefinisikan model sebagai berikut:
 ```Python
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -25,10 +25,10 @@ class Product(models.Model):
 ```
 
 6. Saya menyimpan model tersebut dan menjalankan perintah `python manage.py makemigrations` dan `python manage.py migrate` untuk mengaplikasikan model baru saya.
-7. Saya membuat file `main.html` baru dalam direktori `main/templates`, kemudian saya modifikasi file `views.py` untuk menampilkan template tersebut dengan *context* nama dan kelas saya.
+7. Saya membuat file `main.html` baru dalam direktori `main/templates`, kemudian saya menambahkan *view* baru yang bernama `show_main()` untuk menampilkan template tersebut bersama dengan *context* nama dan kelas saya.
 8. Kemudian, saya melakukan *routing* dengan membuat file `urls.py` dalam folder `main` dan mendefinisikan pola URL baru yang akan memanggil fungsi yang sudah didefinisikan dalam `views.py` pada langkah sebelumnya.
 9. Untuk menghubungkan aplikasi `main` ini ke proyek utama, saya konfigurasi file `urls.py` dalam folder proyek utama dan menambahkan pola URL baru yang mengarah ke pola URL yang sudah didefinisikan pada langkah sebelumnya.
-10. Deployment to PWS **TBA**
+10. Langkah terakhir adalah melakukan *deployment* ke [GitHub](https://github.com/HamletJr/jokes-come-true) dan [PWS](https://pbp.cs.ui.ac.id/web/) atau *Pacil Web Service*. Khusus untuk *deployment* ke PWS, saya membuat proyek baru, kemudian melakukan `git push pws master`.
 
 ### 2. Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
 ![Flowchart](bagan_tugas2.png)
