@@ -15,7 +15,7 @@ class mainTest(TestCase):
         response = Client().get('/skibidi/')
         self.assertEqual(response.status_code, 404)
 
-    def test_strong_mood_user(self):
+    def test_product_available(self):
         item = Product.objects.create(
             name= "Self-Modeling Resin",
             price = 1200,
