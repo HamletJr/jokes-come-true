@@ -1,20 +1,41 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Jokes Come True</title>
-        <style>
-            .Title {
-                text-align: center;
-                margin-top: 50px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="Title">
-            <h1>Welcome to Jokes Come True!</h1>
-        </div>
+{% extends 'base.html' %}
 
-        <p><b>Name:</b> {{ name }}</p>
-        <p><b>Class:</b> {{ class }}</p>
-    </body>
-</html>
+{% block meta %}
+<title>Jokes Come True</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="title">
+    <h1>Welcome to Jokes Come True!</h1>
+</div>
+
+{% if not products %}
+<h2 class="title">Belum ada produk yang terdaftar di katalog toko Jokes Come True!</h2>
+{% else %}
+<table>
+  <tr>
+    <th>Product Name</th>
+    <th>Description</th>
+    <th>Price (Rp)</th>
+    <th>Quantity</th>
+  </tr>
+
+  {% for product in products %}
+  <tr>
+    <td>{{product.name}}</td>
+    <td>{{product.description}}</td>
+    <td>{{product.price}}</td>
+    <td>{{product.quantity}}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<div class="d-grid gap-3 col-6 mx-auto">
+    <a href="{% url 'main:create_product' %}">
+        <button class="btn btn-primary d-block mx-auto">Add New Product</button>
+    </a>
+</div>
+{% endblock content %}
