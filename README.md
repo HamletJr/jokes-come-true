@@ -6,8 +6,22 @@
 ### 🔗 Hasil proyek dapat dilihat pada [link berikut](http://joshua-montolalu-jokescometrue.pbp.cs.ui.ac.id/).
 
 ### Quick Jump!
-| [Tugas 2](#tugas-2) | [Tugas 3](#tugas-3) |
-| - | - |
+| [Tugas 2](#tugas-2) | [Tugas 3](#tugas-3) | [Tugas 4](#tugas-4)
+| - | - | - |
+
+## 4️⃣ Tugas 4
+### 1. Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`
+### 2. Jelaskan cara kerja penghubungan model MoodEntry dengan User!
+### 3. Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
+### 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+
+🕛 **Terakhir di-*update*:** 18 September 2024
+
+## 📜 Log Riwayat README
+
+<details>
+<summary><b>Tugas 3 (18/9/2024)</b></summary>
 
 ## 3️⃣ Tugas 3
 ### 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
@@ -82,9 +96,8 @@ path('json/<str:id>', show_json_by_id, name='show_json_by_id')
 #### 4. `/json/<str:id>`
 ![Screenshot Postman /xml](postman_jsonid.png)
 
-🕛 **Terakhir di-*update*:** 16 September 2024
-
-## 📜 Log Riwayat README
+🕛 **Terakhir di-*update*:** 17 September 2024
+</details>
 
 <details>
 <summary><b>Tugas 2 (11/9/2024)</b></summary>
