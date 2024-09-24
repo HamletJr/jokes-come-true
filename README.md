@@ -11,12 +11,42 @@
 
 ## 4️⃣ Tugas 4
 ### 1. Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`
-### 2. Jelaskan cara kerja penghubungan model MoodEntry dengan User!
-### 3. Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
-### 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
-### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 
-🕛 **Terakhir di-*update*:** 18 September 2024
+[link](https://stackoverflow.com/questions/13304149/what-the-difference-between-using-django-redirect-and-httpresponseredirect)
+
+### 2. Jelaskan cara kerja penghubungan model `Product` dengan `User`!
+Penghubungan model Product dengan model User sebagai 2 model (entity) yang berbeda dapat dilakukan dengan menggunakan konsep *foreign key* dalam *database*.
+
+```Python
+from django.contrib.auth.models import User
+
+class Product(models.Model): 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+```
+
+### 3. Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
+<ul>
+    <li>
+        <b>Authentication</b><br>
+        Authentication adalah.
+    </li>
+    <li>
+        <b>Authorization</b><br>
+        Authorization adalah
+    </li>
+</ul>
+
+### 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
+Django dapat mengingat pengguna yang telah login melalui konsep *session* dan *cookies*. Karena HTTP bersifat *stateless*, maka konsep session diperlukan untuk membantu Django mempertahankan status dan data dari user
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+1. Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
+1. Pertama, saya memodifikasi file `views.py` untuk
+2. Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
+3. Menghubungkan model Product dengan User.
+4. Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi.
+
+🕛 **Terakhir di-*update*:** 24 September 2024
 
 ## 📜 Log Riwayat README
 

@@ -6,29 +6,39 @@
 
 {% block content %}
 <div class="title">
-    <h1>Welcome to Jokes Come True!</h1>
+    <h1>Jokes Come True</h1>
+    <h3>Welcome, {{ name }}</h3>
 </div>
 
 {% if not products %}
-<h2 class="title">Belum ada produk yang terdaftar di katalog toko Jokes Come True!</h2>
+<h2 class="title">Nothing to see here yet!</h2>
 {% else %}
-<table class="table table-hover">
-  <tr>
-    <th>Product Name</th>
-    <th>Description</th>
-    <th>Price (Rp)</th>
-    <th>Quantity</th>
-  </tr>
-
-  {% for product in products %}
-  <tr>
-    <td>{{product.name}}</td>
-    <td>{{product.description}}</td>
-    <td>{{product.price}}</td>
-    <td>{{product.quantity}}</td>
-  </tr>
-  {% endfor %}
-</table>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <table class="table align-middle mx-auto my-4">
+        <thead>
+          <tr class="table-secondary">
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>Price (Jade Feathers)</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          {% for product in products %}
+          <tr>
+            <td>{{product.name}}</td>
+            <td>{{product.description}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.quantity}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endif %}
 
 <br />
@@ -40,6 +50,6 @@
     <a href="{% url 'main:logout' %}">
       <button class="btn btn-primary d-block mx-auto">Logout</button>
     </a>
-    <h5 class="title">Sesi terakhir login: {{ last_login }}</h5>
+    <h5 class="title">Last login: {{ last_login }}</h5>
 </div>
 {% endblock content %}
