@@ -11,11 +11,10 @@
 
 ## 4️⃣ Tugas 4
 ### 1. Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`
-
-[link](https://stackoverflow.com/questions/13304149/what-the-difference-between-using-django-redirect-and-httpresponseredirect)
+Perbedaan antara `HttpResponseRedirect()` dan `redirect()` adalah `HttpResponseRedirect()` hanya menerima argumen URL yang akan langsung dikembalikan sebagai response *redirect* HTTP ke *client*, sedangkan `redirect()` lebih fleksibel dan dapat menerima argumen seperti `model`, `view`, atau URL biasa. Ini kemudian akan diproses oleh Django dan akan mengembalikan `HttpResponseRedirect()` dengan tujuan *redirect* yang sesuai. Karena ini, jika kita ingin mengembalikan URL ke `views` kita menggunakan `HttpResponseRedirect()`, kita perlu menggunakan metode `reverse()` dulu untuk mendapatkan URL mentahnya.
 
 ### 2. Jelaskan cara kerja penghubungan model `Product` dengan `User`!
-Penghubungan model Product dengan model User sebagai 2 model (entity) yang berbeda dapat dilakukan dengan menggunakan konsep *foreign key* dalam *database*.
+Penghubungan model Product dengan model User sebagai 2 model (*entity*) yang berbeda dapat dilakukan dengan menggunakan konsep *foreign key* dalam *database*. Berikut adalah modifikasi model yang saya lakukan untuk tugas ini.
 
 ```Python
 from django.contrib.auth.models import User
@@ -24,27 +23,34 @@ class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 ```
 
+Pada model `Product`, ditambah satu field baru yang bertipe `ForeignKey` dari model `User`. Ini berarti *primary key* dari model `User` akan dimasukkan ke dalam `Product`, sehingga setiap *record* product akan terhubung dengan tepat satu `User` berdasarkan UUID yang unik.
+
 ### 3. Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
-<ul>
-    <li>
-        <b>Authentication</b><br>
-        Authentication adalah.
-    </li>
-    <li>
-        <b>Authorization</b><br>
-        Authorization adalah
-    </li>
-</ul>
+- **Authentication**<br>
+Authentication adalah bentuk verifikasi terhadap pengguna yang ingin menggunakan aplikasi kita. Misal untuk kasus ini, *login* adalah salah satu contoh dari *authentication* untuk memastikan bahwa orang yang ingin mengakses atau melakukan *request* kepada aplikasi kita benar-benar orang yang sesuai, bukan orang lain.
+```Py
+# Contoh implementasi
+``` 
+
+- **Authorization**<br>
+Authorization adalah bentuk *access control* untuk menentukan siapa saja yang dapat melakukan hal-hal tertentu.
+```Py
+```
 
 ### 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
-Django dapat mengingat pengguna yang telah login melalui konsep *session* dan *cookies*. Karena HTTP bersifat *stateless*, maka konsep session diperlukan untuk membantu Django mempertahankan status dan data dari user
+Django dapat mengingat pengguna yang telah login melalui konsep *session* dan *cookies*. Karena HTTP bersifat *stateless*, maka konsep *session* diperlukan untuk membantu Django mempertahankan status dan data dari user.
 
 ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
-1. Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
-1. Pertama, saya memodifikasi file `views.py` untuk
+1. Pertama, saya memodifikasi file `views.py` untuk membuat views `register()`, `login()`, dan `logout()`.
 2. Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
 3. Menghubungkan model Product dengan User.
 4. Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi.
+
+### Bukti 2 akun dummy dengan 3 produk per akun
+1. **Akun HamletJr dengan 3 produk**
+![Screenshot1](assets/assignment/tugas4_1.png)
+2. **Akun juan dengan 3 produk**
+![Screenshot2](assets/assignment/tugas4_2.png)
 
 🕛 **Terakhir di-*update*:** 24 September 2024
 
@@ -118,13 +124,13 @@ path('json/<str:id>', show_json_by_id, name='show_json_by_id')
 
 ### Screenshot dari hasil akses URL langkah 2 pada Postman
 #### 1. `/xml/`
-![Screenshot Postman /xml](postman_xml.png)
+![Screenshot Postman /xml](assets/assignment/postman_xml.png)
 #### 2. `xml/<str:id>`
-![Screenshot Postman /xml](postman_xmlid.png)
+![Screenshot Postman /xml](assets/assignment/postman_xmlid.png)
 #### 3. `/json/`
-![Screenshot Postman /xml](postman_json.png)
+![Screenshot Postman /xml](assets/assignment/postman_json.png)
 #### 4. `/json/<str:id>`
-![Screenshot Postman /xml](postman_jsonid.png)
+![Screenshot Postman /xml](assets/assignment/postman_jsonid.png)
 
 🕛 **Terakhir di-*update*:** 17 September 2024
 </details>
@@ -158,7 +164,7 @@ class Product(models.Model):
 10. Langkah terakhir adalah melakukan *deployment* ke [GitHub](https://github.com/HamletJr/jokes-come-true) dan [PWS](https://pbp.cs.ui.ac.id/web/) atau *Pacil Web Service*. Khusus untuk *deployment* ke PWS, saya membuat proyek baru, kemudian melakukan `git push pws master`.
 
 ### 2. Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
-![Flowchart](bagan_tugas2.png)
+![Flowchart](assets/assignment/bagan_tugas2.png)
 
 ### 3. Jelaskan fungsi git dalam pengembangan perangkat lunak!
 Git dalam pengembangan perangkat lunak berfungsi sebagai software *version control*, yaitu sebagai alat yang memantau versi-versi file pada suatu repositori. Git memudahkan proses pengembangan kode secara kolaboratif dengan melacak perubahan yang terjadi pada kode. Git menyediakan berbagai fitur seperti *branching* dan *merging* untuk menyelesaikan konflik antar perubahan, dan memungkinkan kita untuk kembali ke versi kode yang lebih awal jika kita membutuhkannya.

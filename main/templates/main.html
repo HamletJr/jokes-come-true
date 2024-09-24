@@ -43,13 +43,13 @@
 
 <br />
 
-<div class="d-grid gap-3 col-6 mx-auto">
-    <a href="{% url 'main:create_product' %}">
-        <button class="btn btn-primary d-block mx-auto">Add New Product</button>
-    </a>
-    <a href="{% url 'main:logout' %}">
-      <button class="btn btn-primary d-block mx-auto">Logout</button>
-    </a>
-    <h5 class="title">Last login: {{ last_login }}</h5>
+<div class="text-center d-flex flex-column align-items-center">
+  <a href="{% url 'main:create_product' %}">
+    <button class="btn btn-primary my-2">Add New Product</button>
+  </a>
+  <a href="{% url 'main:logout' %}">
+    <button class="btn btn-primary my-2">Logout</button>
+  </a>
+  <h5 class="title">Last login: {{ last_login }}</h5>
 </div>
 {% endblock content %}
