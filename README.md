@@ -27,26 +27,31 @@ Pada model `Product`, ditambah satu field baru yang bertipe `ForeignKey` dari mo
 
 ### 3. Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
 - **Authentication**<br>
-Authentication adalah bentuk verifikasi terhadap pengguna yang ingin menggunakan aplikasi kita. Misal untuk kasus ini, *login* adalah salah satu contoh dari *authentication* untuk memastikan bahwa orang yang ingin mengakses atau melakukan *request* kepada aplikasi kita benar-benar orang yang sesuai, bukan orang lain.
-```Py
-# Contoh implementasi
-``` 
+Authentication adalah bentuk verifikasi terhadap pengguna yang ingin menggunakan aplikasi kita. Misal untuk kasus ini, *login* adalah salah satu contoh dari *authentication* untuk memastikan bahwa orang yang ingin mengakses atau melakukan *request* kepada aplikasi kita benar-benar orang yang sesuai, bukan orang lain. Cara Django mengimplementasi konsep ini adalah dengan `AuthenticationForm`. Dalam kasus ini, `AuthenticationForm` berisi sebuah form yang akan memverifikasi bahwa orang yang ingin mengakses aplikasi kita sebagai *user* tertentu perlu memberikan *password* yang sesuai untuk membuktikan bahwa mereka benar adalah pengguna itu. Jika otentikasi ini berhasil, baru pengguna dapat login ke akun mereka.
 
 - **Authorization**<br>
-Authorization adalah bentuk *access control* untuk menentukan siapa saja yang dapat melakukan hal-hal tertentu.
-```Py
-```
+Authorization adalah bentuk *access control* untuk menentukan siapa saja yang dapat melakukan hal-hal tertentu. Dalam Django, salah satu implementasi *authorization* adalah *views* `show_main()`. Terdapat *decorator* `@login_required()` yang memberi syarat bahwa hanya pengguna yang terdaftar di aplikasi boleh mengakses *view* `show_main()`. 
 
 ### 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
-Django dapat mengingat pengguna yang telah login melalui konsep *session* dan *cookies*. Karena HTTP bersifat *stateless*, maka konsep *session* diperlukan untuk membantu Django mempertahankan status dan data dari user.
+Django dapat mengingat pengguna yang telah login melalui konsep *session* dan *cookies*. Karena HTTP bersifat *stateless*, maka konsep *session* perlu diimplementasi dari sisi aplikasi untuk membantu kita mempertahankan status dan data dari user. Ini dilakukan dengan mengirim data berukuran kecil yaitu *cookie* ke *client*. Setiap kali *client* melakukan request, *cookie* ini akan disisipkan ke *header* request sehingga aplikasi kita dapat mengenali *client* tanpa otentikasi (login) lagi.
+
+Kegunaan *cookie* tidak hanya dibatasi untuk otentikasi, tetapi *cookie* juga dapat digunakan untuk menyimpan preferensi pengguna, misalnya penampilan atau pengaturan tertentu. *Cookie* juga dapat digunakan untuk menyimpan *state*, misalnya isi keranjang untuk aplikasi *online shopping*.
+
+Akan tetapi, *cookie* tidak selalu aman untuk digunakan. Salah satu contoh adalah *tracking cookie*, yaitu *cookie* yang dapat digunakan untuk melacak penggunaan web kita. Misal kita mengakses sebuah aplikasi A yang perlu memuat konten dari website B. Website B dapat menyimpan *tracking cookie* ke perangkat *client* yang mencatat nama aplikasi A. Kemudian, jika pengguna mengakses aplikasi C yang juga memerlukan konten dari website B, maka ketika kita melakukan request, *tracking cookie* yang tersimpan di perangkat akan otomatis dikirim ke website B sehingga website B akan tahu bahwa kita mengunjungi aplikasi A sebelumnya. 
+
+Selain itu, *cookie* juga dapat disalahgunakan oleh *attacker* dengan berbagai cara seperti *cookie theft* (pengiriman data *cookie* ke *attacker* yang dapat berisi data sensitif) dan CSRF (*attacker* membuat pengguna melakukan *request* dengan *cookies* pengguna tanpa sepengetahuannya). Oleh karena itu, baik sisi *server* maupun sisi *client* perlu mengantisipasi hal ini dengan menerapkan langkah-langkah pencegahan untuk mengamankan *cookies* yang digunakan.
 
 ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
-1. Pertama, saya memodifikasi file `views.py` untuk membuat views `register()`, `login()`, dan `logout()`.
-2. Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
-3. Menghubungkan model Product dengan User.
-4. Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi.
+1. Pertama, saya memodifikasi file `views.py` untuk membuat views baru untuk register, login, dan logout, yaitu `register()`, `login_user()`, dan `logout_user()`.
+2. Untuk `register()`, saya menggunakan form registrasi bawaan Django yaitu `UserCreationForm`. Form ini kemudian akan divalidasi terlebih dahulu sebelum di-*save* ke aplikasi saya jika pengguna inging membuat akun baru. Ketika request yang datang ke server adalah *request* GET, aplikasi akan mengembalikan *template* dengan form registrasi, sedangkan untuk request POST, aplikasi akan memproses request registrasi.
+3. Untuk `login_user()`, saya menggunakan `AuthenticationForm` dari Django untuk mendapatkan username dan password dari pengguna. Sama seperti sebelumnya, form ini akan divalidasi, termasuk memeriksa apakah username dan password yang diinput sudah valid. Setelah berhasil login, aplikasi akan mengirim *response* beserta *cookie* untuk menandakan bahwa pengguna sudah terotentikasi. Untuk *views* ini dibedakan antara request GET dan POST sama seperti *view* `register()`.
+4. Untuk `logout_user()`, saya menggunakan metode bawaan Django yaitu `logout()`. Metode ini akan menghapus data *session* dari pengguna dan *cookie*, kemudian melakukan *redirect* ke halaman *main*.
+5. Semua *views* dihubungkan ke aplikasi lewat `urls.py` dengan *path* masing-masing.
+6. Setelah itu, saya menyiapkan model `Product` saya untuk dihubungkan ke model `User` dengan menambahkan *field* baru ke `Product` yang berisi *foreign key* dari sebuah `User`. Perubahan model kemudian diaplikasikan dengan `python manage.py makemigrations` dan `python manage.py migrate`.
+6. Setelah itu, saya mencoba untuk menggunakan *views* dan *model* yang baru saja diimplementasikan dengan meregistrasi 2 *user*. Untuk setiap *user*, saya menambahkan 3 produk baru.
+7.  Setelah itu, saya menambahkan informasi pengguna yaitu *username* di judul dan waktu login terakhir di template `main.html’. Waktu login terakhir didapatkan dari *cookies* pengguna dan diberikan sebagai *context* ke *template*.
 
-### Bukti 2 akun dummy dengan 3 produk per akun
+### Bukti 2 akun *dummy* dengan 3 produk per akun
 1. **Akun HamletJr dengan 3 produk**
 ![Screenshot1](assets/assignment/tugas4_1.png)
 2. **Akun juan dengan 3 produk**

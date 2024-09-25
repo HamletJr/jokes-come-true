@@ -5,12 +5,12 @@
 {% endblock meta %}
 
 {% block content %}
-<div class="login">
+<div class="login" style="margin: 15px;">
     <h1>Login</h1>
 
     <form method="POST" action="">
         {% csrf_token %}
-        <table>
+        <table class="table table-borderless">
         {{ form.as_table }}
         <tr>
             <td></td>
