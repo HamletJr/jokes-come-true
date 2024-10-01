@@ -1,5 +1,5 @@
 import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from main.forms import ProductForm
 from main.models import Product
 from django.http import HttpResponse, HttpResponseRedirect
@@ -16,11 +16,12 @@ def show_main(request):
         'name': request.user.username,
         'class': 'PBP F',
         'products': Product.objects.filter(user=request.user),
-        'last_login': request.COOKIES['last_login'],
+        'last_login': request.COOKIES['last_login']
     }
 
     return render(request, "main.html", context)
 
+@login_required(login_url='/login')
 def create_product(request):
     form = ProductForm(request.POST or None)
 
@@ -35,6 +36,25 @@ def create_product(request):
     }
 
     return render(request, "create_product.html", context)
+
+@login_required(login_url='/login')
+def edit_product(request, id):
+    product = Product.objects.get(pk=id)
+
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+
+@login_required(login_url='/login')
+def delete_product(request, id):
+    product = Product.objects.get(pk=id)
+    product.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
 
 def register(request):
     form = UserCreationForm()
@@ -56,7 +76,7 @@ def login_user(request):
             user = form.get_user()
             login(request, user)
             response = HttpResponseRedirect(reverse("main:show_main"))
-            response.set_cookie('last_login', str(datetime.datetime.now()))
+            response.set_cookie('last_login', str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
             return response
 
     else:

@@ -5,28 +5,52 @@
 {% endblock meta %}
 
 {% block content %}
-
-<div class="login">
-    <h1 class="title">Register</h1>
-
-    <form method="POST">
+{% include 'navbar.html' %}
+<div class="content vh-75 d-flex justify-content-center align-items-center">
+    <div class="w-100" style="max-width: 400px;">
+        <h2 class="my-4 text-center">Create an account</h2>
+        <form method="POST" action="" class="w-100">
         {% csrf_token %}
-        <table>
-            {{ form.as_table }}
-            <tr>
-                <td></td>
-                <td><input type="submit" name="submit" value="Daftar" /></td>
-            </tr>
-        </table>
+        {% for field in form %}
+          <div class="{% if not forloop.first %}mt-4{% endif %}">
+            <label for="{{ field.id_for_label }}">
+              {{ field.label }}
+            </label>
+            {{ field }}
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <p class="mt-1 text-danger fs-6">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+          
+        {% endfor %}
+        <div class="d-grid mt-3">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+        <div class="d-grid text-center mt-4">
+          <p>
+            Already have an account?
+            <a href="{% url 'main:login' %}">
+              Login here
+            </a>
+          </p>
+        </div>
+      </div>
     </form>
 
     {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
+    <div class="mt-4">
+      {% for message in messages %}
+      <div class="text-danger" role="alert">
+        <span>{{ message }}</span>
+      </div>
+      {% endfor %}
+    </div>
     {% endif %}
+    </form>
+    </div>
+  </div>
 </div>
 
 {% endblock content %}

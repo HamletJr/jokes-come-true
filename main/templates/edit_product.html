@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta %}
+<title>Edit Product</title>
+{% endblock meta %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="content vh-75 d-flex justify-content-center align-items-center">
+    <div class="w-100" style="max-width: 400px;">
+    <h2 class="title">Edit Product</h1>
+  
+  <div class="content">
+    <form method="POST">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-floating {% if not forloop.first %}mt-4{% endif %}">
+          {{ field }}
+          <label for="{{ field.id_for_label }}">
+            {{ field.label }}
+          </label>
+          {% if field.errors %}
+            <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+          {% endif %}
+          </div>
+          {% endfor %}
+          <div class="d-grid my-3">
+            <input type="submit" class="btn btn-primary" value="Edit Product"/>
+          </div>    
+          <div class="d-grid my-3">
+            <a href="{% url 'main:show_main' %}" class="w-100"><button class="btn btn-secondary w-100" type="button">Back</button></a>
+          </div>
+                
+    </form>
+    </div>
+    </div>
+</div>
+
+{% endblock %}

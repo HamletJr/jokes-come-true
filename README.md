@@ -6,8 +6,75 @@
 ### 🔗 Hasil proyek dapat dilihat pada [link berikut](http://joshua-montolalu-jokescometrue.pbp.cs.ui.ac.id/).
 
 ### Quick Jump!
-| [Tugas 2](#tugas-2) | [Tugas 3](#tugas-3) | [Tugas 4](#tugas-4)
-| - | - | - |
+| [Tugas 2](#tugas-2) | [Tugas 3](#tugas-3) | [Tugas 4](#tugas-4) | [Tugas 5](#tugas-5)
+| - | - | - | - |
+
+## 5️⃣ Tugas 5
+### 1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+Jika terdapat beberapa CSS selector untuk suatu elemen HTML, maka urutan prioritas pengambilan CSS selector tersebut adalah dari yang paling spesifik hingga yang paling umum. Misal terdapat sebuah file HTML seperti berikut:
+
+```HTML
+<h1 id="namaID0" class="judul" style="color: green;">Sebuah elemen dengan ID (unik) dan class (tidak unik), tapi memiliki inline style</h1>
+<h1 id="namaID1" class="judul">Sebuah elemen dengan ID (unik) dan class (tidak unik)</h1>
+<h1 id="namaID2" class="judul">Sebuah elemen lain dengan ID (unik) dan class (tidak unik)</h1>
+<h2 id="namaID3" class="judul">Sebuah elemen lain dengan jenis berbeda, ID (unik), dan class (tidak unik)</h2>
+```
+
+Dari 4 jenis selector yang sudah kita ketahui, urutan dari keempatnya adalah:
+
+1. *Inline styles*
+```HTML
+<h1 id="namaID0" class="judul" style="color: green;">Sebuah elemen dengan ID (unik) dan class (tidak unik), tapi memiliki inline style</h1>
+```
+Seperti yang sudah dicontohkan di atas, *selector* jenis ini berada di dalam elemen HTML itu sendiri sehingga ini merupakan selector CSS yang paling langsung dan spesifik.
+
+2. ID *selector*
+```CSS
+#namaID1 {
+    color: red;
+    margin: 10px;
+}
+```
+Setelah *inline style*, selector kedua yang paling spesifik adalah *ID selector*, karena ID untuk setiap elemen HTML bersifat unik.
+
+3. *Class selector*
+```CSS
+.judul {
+    font-family: "Comic Sans MS";
+    color: "blue";
+}
+```
+Karena *class* bersifat tidak unik, maka *selector* ini berada di bawah urutan ID. Namun, karena *class* tetap hanya berlaku untuk elemen-elemen yang memiliki *class* ini saja, maka *class selector* lebih spesifik jika dibandingkan dengan *selector* yang terakhir.
+
+4. *Element selector*. 
+```CSS
+h1 {
+    color: "green";
+    margin: 0;
+}
+```
+*Selector* ini adalah yang paling umum karena elemen tentu saja tidak unik dan tidak ada cara untuk memilih elemen mana saja yang akan diberi *style* tertentu. Misal untuk potongan kode di atas, **semua** elemen `h1` akan di-*style* dengan *rules* yang sudah diberikan; tidak ada cara untuk mengecualikan elemen-elemen tertentu. Karena kurangnya kustomisasi yang mungkin, maka *selector* ini berada pada urutan paling bawah.  
+
+### 2. Mengapa *responsive design* menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan *responsive design*!
+*Responsive design* menjadi konsep yang penting karena blablabla
+
+Salah satu contoh aplikasi yang sudah menerapkan *responsive design* adalah blablabla
+
+Salah satu contoh aplikasi yang belum menerapkan *responsive design* adalah blablabla
+
+### 3. Jelaskan perbedaan antara *margin*, *border*, dan *padding*, serta cara untuk mengimplementasikan ketiga hal tersebut!
+Terdapat 4 bagian dari *box model* yang digunakan dalam CSS, yaitu *content*, *padding*, *border*, dan *margin*. *Content* adalah konten atau elemen HTML yang akan di-*style* blablabla
+
+### 4. Jelaskan konsep *flex box* dan *grid layout* beserta kegunaannya!
+something
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+1. h3h3
+
+## 📜 Log Riwayat README
+
+<details>
+<summary><b>Tugas 4 (25/9/2024)</b></summary>
 
 ## 4️⃣ Tugas 4
 ### 1. Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`
@@ -57,9 +124,8 @@ Selain itu, *cookie* juga dapat disalahgunakan oleh *attacker* dengan berbagai c
 2. **Akun juan dengan 3 produk**
 ![Screenshot2](assets/assignment/tugas4_2.png)
 
-🕛 **Terakhir di-*update*:** 24 September 2024
-
-## 📜 Log Riwayat README
+🕛 **Terakhir di-*update*:** 25 September 2024
+</details>
 
 <details>
 <summary><b>Tugas 3 (18/9/2024)</b></summary>

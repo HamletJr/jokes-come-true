@@ -1,0 +1,45 @@
+{% load static %}
+
+<div class="col-sm-6 mb-3 mb-sm-0">
+    <div class="card border-secondary mb-3 h-100" style="width: 18rem; height: 20rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">
+                <img src="{% static 'image/jade-feather.png' %}" alt="Jade Feather" width="20" height="20" class="d-inline-block align-text-top">
+                {{ product.price }} Jade Feathers</h6>
+            {% if product.is_product_available %}
+                {% if product.quantity < 5 %}
+                <h6 class="card-subtitle mb-2 text-warning">
+                {% else %}
+                <h6 class="card-subtitle mb-2 text-success">
+                {% endif %}
+                Stock: {{ product.quantity }}
+                </h6>
+            {% else %}
+            <h6 class="card-subtitle mb-2 text-danger">Out of stock!</h6>
+            {% endif %}
+            <p class="card-text">{{ product.description }}</p>
+            <div class="position-absolute bottom-0 start-50 translate-middle-x my-1">
+                <a href="{% url 'main:edit_product' product.pk %}" class="card-link me-1"><button class="btn btn-primary" type="button">Edit</button></a>
+                <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delete{{ product.pk }}Modal">Delete</button>
+            </div>
+            <div class="modal fade" id="delete{{ product.pk }}Modal" tabindex="-1" aria-labelledby="delete{{ product.pk }}Modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h1 class="modal-title fs-5" id="delete{{ product.pk }}Modal">Confirmation</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete {{ product.name }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="{% url 'main:delete_product' product.pk %}"><button type="button" class="btn btn-danger">Delete</button></a>
+                </div>
+                </div>
+            </div>
+            </div>              
+        </div>
+    </div>
+</div>
