@@ -56,20 +56,77 @@ h1 {
 *Selector* ini adalah yang paling umum karena elemen tentu saja tidak unik dan tidak ada cara untuk memilih elemen mana saja yang akan diberi *style* tertentu. Misal untuk potongan kode di atas, **semua** elemen `h1` akan di-*style* dengan *rules* yang sudah diberikan; tidak ada cara untuk mengecualikan elemen-elemen tertentu. Karena kurangnya kustomisasi yang mungkin, maka *selector* ini berada pada urutan paling bawah.  
 
 ### 2. Mengapa *responsive design* menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan *responsive design*!
-*Responsive design* menjadi konsep yang penting karena blablabla
+*Responsive design* menjadi konsep yang penting karena *responsive design* membuat aplikasi web kita dapat menyesuaikan konten yang ditampilkan dengan ukuran dan orientasi tampilan yang dimiliki oleh *device* yang digunakan oleh pengguna aplikasi web kita. Misalnya, aplikasi web dapat menampilkan konten berbeda untuk pengguna yang menggunakan PC dan pengguna yang menggunakan HP, dan lain sebagainya. *Responsive design* tentunya akan membuat pengalaman pengguna menggunakan aplikasi kita menjadi lebih baik, karena konten kita sudah disesuaikan dan dioptimalkan dengan *device* yang mereka gunakan.
 
-Salah satu contoh aplikasi yang sudah menerapkan *responsive design* adalah blablabla
+Salah satu contoh aplikasi yang sudah menerapkan *responsive design* adalah website [SCELE](https://scele.cs.ui.ac.id). Dapat dilihat bahwa tampilan SCELE untuk *viewport mobile* dan *viewport desktop* memiliki perbedaan yang cukup signifikan. Konten pada SCELE sudah disesuaikan dan dioptimalkan untuk *viewport* yang berbeda-beda sehingga dapat diakses dan digunakan dengan cukup nyaman di HP maupun PC. *Navbar* yang digunakan diubah menjadi *dropdown*, *dropdown* yang ada diberi ukuran yang lebih besar untuk memudahkan pengguna dalam meng-klik isi *dropdown* tersebut, dan masih banyak lagi. 
 
-Salah satu contoh aplikasi yang belum menerapkan *responsive design* adalah blablabla
+Salah satu contoh aplikasi yang belum menerapkan *responsive design* adalah [SIAK-NG](https://academic.ui.ac.id). Dapat dilihat bahwa tampilan SIAK-NG untuk *viewport mobile* kurang nyaman untuk pengguna karena memiliki design yang mirip dengan tampilan untuk *viewport desktop*, sehingga untuk menjangkau beberapa elemen-elemen seperti *navbar* dan *dropdown* memerlukan pengguna untuk melakukan *extra effort*, seperti membaca teks kecil, *zoom-in* untuk menekan *button*, dan lain sebagainya.
 
 ### 3. Jelaskan perbedaan antara *margin*, *border*, dan *padding*, serta cara untuk mengimplementasikan ketiga hal tersebut!
-Terdapat 4 bagian dari *box model* yang digunakan dalam CSS, yaitu *content*, *padding*, *border*, dan *margin*. *Content* adalah konten atau elemen HTML yang akan di-*style* blablabla
+Terdapat 4 bagian dari *box model* yang digunakan dalam CSS, yaitu *content*, *padding*, *border*, dan *margin*. *Content* adalah konten atau elemen HTML yang akan di-*style*, dan setiap elemen *content* memiliki *padding*, *border*, dan *margin*.
+
+Yang pertama, *padding* adalah jarak yang berada di dalam elemen HTML di antara elemen tersebut dengan *border*-nya. Padding memberikan jarak di dalam elemen, sehingga elemen tersebut tidak akan menyentuh *border*.
+```CSS
+h1 {
+    padding: 5px;           /* Padding untuk semua sisi */
+    padding-top: 5px;       /* Padding untuk sisi atas elemen */
+    padding-right: 5px;     /* Padding untuk sisi kanan elemen */
+    padding-bottom: 5px;    /* Padding untuk sisi bawah elemen */
+    padding-left: 5px;      /* Padding untuk sisi kiri elemen */    
+} 
+```
+Kemudian, *border* mendefinisikan garis batasan yang mengelilingi *content* HTML beserta *padding*. Ada banyak cara untuk mendifinisikan *border* untuk elemen HTML kita, misalnya sebagai berikut:
+```CSS
+h1 {
+    border: 5px solid red;  /* Mendefinisikan border dengan ketebalan 5px dan warna merah, garis solid */
+    border-width: 10px;     /* Untuk mengubah ketebalan border */
+    border-style: dotted;   /* Untuk mengubah garis yang digunakan, bisa dotted (garis titik-titik), solid (garis utuh), dan lain-lain */
+    border-color: green;    /* Untuk mengubah warna garis border */
+}
+```   
+Yang terakhir, ada *margin* yang mendefinisikan jarak antara *border* elemen HTML ke luar. *Margin* memungkinkan kita untuk memberi jarak/spasi antara suatu elemen dengan elemen lain. Sama dengan *padding*, ada 4 posisi berbeda yang mungkin:
+```CSS
+h1 {
+    margin: 5px;           /* Margin untuk semua sisi */
+    margin-top: 5px;       /* Margin untuk sisi atas elemen */
+    margin-right: 5px;     /* Margin untuk sisi kanan elemen */
+    margin-bottom: 5px;    /* Margin untuk sisi bawah elemen */
+    margin-left: 5px;      /* Margin untuk sisi kiri elemen */
+}
+```
 
 ### 4. Jelaskan konsep *flex box* dan *grid layout* beserta kegunaannya!
-something
+*Flex box* adalah *layout* baru pada CSS3 yang memungkinkan kita untuk menata elemen-elemen dalam *row* **atau** *column*. Ada 4 *direction* yang dapat digunakan untuk *flex box*, yaitu `row`, `row-reverse`, `column`, dan `column-reverse`. *Direction* `row-reverse` dan `column-reverse` memungkinkan kita untuk menata elemen dalam *row* atau *column* seperti biasa, namun dengan arah terbalik (dari kanan ke kiri). Contoh CSS untuk *flex box*:
+```CSS
+.parent {
+    display: flex;
+    flex-wrap: wrap;
+}
+.element {
+    flex-direction: row;
+}
+```
+
+Sementara itu, *grid layout* memungkinkan kita untuk menata elemen-elemen dalam *row* **dan** *column*. Satu halaman dibagi menjadi 12 *column* yang kemudian dibagi lagi menjadi beberapa *row*. 
+```CSS
+.parent {
+    display: grid;  /* Secara otomatis child element akan menjadi grid items */
+}
+```
+Masing-masing *layout* memiliki kegunaan dan *use case* tertentu. Keduanya sudah berupa *layout responsive*, tetapi *flexbox* lebih ideal digunakan jika kita ingin menata elemen secara *one-dimensional* alias hanya satu arah/axis. Ukuran dari *flexbox* dapat juga menyesuaikan dengan elemen-elemen yang berada di dalamnya. Salah satu kegunaan lain dari *flexbox* adalah mampu membalikkan urutan dari elemen-elemen pada suatu baris/kolom karena sudah memiliki *property* `flex-direction` yang dapat ditambah dengan mudah ke semua elemen yang diinginkan. Sementara itu, *grid layout* lebih cocok digunakan jika kita ingin menata elemen secara *two-dimensional* alias pada dua arah/axis. *Grid layout* juga memungkinkan kita untuk menata elemen dengan posisi yang lebih kompleks dan mungkin bisa dibilang lebih "rapi" dalam mayoritas kasus. *Grid layout* juga menyediakan *spacing* otomatis untuk memberi jarak secara otomatis antara setiap elemen pada *grid*.
 
 ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
-1. h3h3
+1. Pertama, saya menambah *views* untuk *edit* (`edit_product()`) dan *delete product* (`delete_product()`) ke `views.py`.
+2. Saya menambah template baru yaitu `edit_product.html` untuk *view* `edit_product()` yang berisi *form* yang dapat diubah oleh pengguna untuk modifikasi product yang sudah ada.
+3. Saya menghubungkan *views* yang sudah dibuat dalam `urls.py` dan menambah *path* baru untuk `edit_product()` dan `delete_product()`.
+4. Saya menghubungkan *framework* Bootstrap di dalam `base.html` saya, kemudian saya membuat folder `static/` untuk menyimpan berkas `.css`, `.png`, dan lain-lain. Untuk menghubungkan *static files* tersebut, saya menambahkan *middleware* dan *path* ke direktori `static/` tersebut dalam `settings.py`.
+5. Saya membuat *base template* baru yaitu `navbar.html` yang akan saya gunakan untuk halaman-halaman lain pada aplikasi saya. Untuk implementasi *navbar*, saya menggunakan *navbar responsive* yang sudah disediakan oleh Bootstrap. Saya memindahkan *button* untuk *Create Product* ke *navbar* ini.
+6. Setelah itu, saya melakukan modifikasi ke file HTML yang dibuat sebelumnya (`login.html`, `register.html`, `create_product.html`, `main.html`, dan `edit_product.html`) untuk membuatnya lebih *responsive* dan menarik dilihat dengan menggunakan *framework* Bootstrap seperti elemen `input`, `grid`, dan lain-lain.
+7. Saya juga menambahkan template baru yaitu `product_card.html` untuk menyimpan HTML untuk sebuah *card* yang akan digunakan untuk menyimpan informasi sebuah produk. Implementasi *card* ini juga menggunakan implementasi yang sudah diberikan dalam *framework* Bootstrap.
+8. Saya juga menambahkan *button* untuk meng-*edit* dan menghapus produk dalam *card* tersebut (*Button delete* juga ditambah *confirmation modal* yang disediakan Bootstrap).
+9. Pada template `main.html`, saya menambahkan *container responsive* untuk menampung semua *product card*, kemudian saya menambahkan *conditional* untuk menampilkan pesan dan gambar dari *static files* jika belum ada produk.
+
+🕛 **Terakhir di-*update*:** 2 Oktober 2024
 
 ## 📜 Log Riwayat README
 
