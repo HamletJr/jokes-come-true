@@ -5,9 +5,37 @@
 
 ### 🔗 Hasil proyek dapat dilihat pada [link berikut](http://joshua-montolalu-jokescometrue.pbp.cs.ui.ac.id/).
 
-### Quick Jump!
-| [Tugas 2](#tugas-2) | [Tugas 3](#tugas-3) | [Tugas 4](#tugas-4) | [Tugas 5](#tugas-5)
-| - | - | - | - |
+### Tugas Sebelumnya
+| [Tugas 2](#2️⃣-tugas-2) | [Tugas 3](#3️⃣-tugas-3) | [Tugas 4](#4️⃣-tugas-4) | [Tugas 5](#5️⃣-tugas-5) | [Tugas 6](#6️⃣-tugas-6)
+| - | - | - | - | - |
+
+## 6️⃣ Tugas 6
+### 1. Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+JavaScript merupakan salah satu bahasa pemrograman yang sangat penting dalam pengembangan aplikasi web yang responsif dan interaktif. Jika HTML memberi struktur untuk halaman web kita, dan CSS memberi penampilan kepada halaman web kita, maka JavaScript berfungsi untuk membuat halaman web kita lebih dinamis dan terasa "hidup". JavaScript mampu mengubah isi halaman web pada sisi *client*, misalnya elemen HTML, properti CSS, menambah HTML, menambah CSS, dan masih banyak lagi. Semuanya dilakukan tanpa intervensi server sehingga dapat dilakukan secara asinkronus, tanpa perlu melakukan *reload*. Salah satu kegunaan dari JavaScript adalah ketika kita menggunakan aplikasi *chat* seperti WhatsApp Web. Ketika ada chat masuk, WhatsApp mampu menampilkannya tanpa perlu *refresh* dari pengguna. Tanpa JavaScript, pengguna harus melakukan *refresh* secara berkala jika ingin melihat *chat* baru. Ini tentunya sangat merepotkan dan tidak nyaman bagi pengguna. Kegunaan lain dari JavaScript adalah untuk validasi form di sisi *client*, animasi, dan manipulasi DOM secara dinamis. Validasi form di sisi *client* memungkinkan kita untuk memeriksa *input* pengguna sebelum data dikirim ke server, sehingga dapat mengurangi beban server dan memberikan umpan balik yang lebih cepat kepada pengguna. Animasi yang dibuat dengan JavaScript dapat meningkatkan pengalaman pengguna dengan membuat transisi dan interaksi lebih halus dan menarik. Manipulasi DOM secara dinamis memungkinkan kita untuk menambah, menghapus, atau mengubah elemen HTML secara langsung berdasarkan interaksi pengguna, sehingga halaman web dapat beradaptasi dengan kebutuhan pengguna secara *real-time*.
+
+### 2. Jelaskan fungsi dari penggunaan `await` ketika kita menggunakan `fetch()`! Apa yang akan terjadi jika kita tidak menggunakan `await`?
+*Keyword* `await` digunakan untuk memberitahu JavaScript untuk menunggu hasil dari suatu fungsi `async` sebelum lanjut mengeksekusi kode. Fungsi `async` sendiri menandakan bahwa suatu fungsi berjalan secara asinkronus (bersamaan dengan fungsi lain). Dengan demikian, kita dapat menerapkan komunikasi web asinkronus di mana suatu fungsi dapat berjalan di latar belakang. Salah satu contoh adalah ketika kita ingin menampilkan semua produk yang ada. Kita dapat menggunakan komunikasi web asinkronus agar pengguna tidak perlu menunggu ataupun melakukan reload. Kita dapat memanggil `fetch()` untuk mengambil data dari server, tetapi karena `fetch()` perlu waktu untuk berkomunikasi dengan server, kita harus menunggu `fetch()` untuk mendapatkan *response* dari server. Untuk itu, `await` dapat digunakan untuk menandakan bahwa JavaScript harus menunggu hasil (*value* dari `Promise`) dari fungsi `fetch()` sebelum lanjut. Tanpa adanya *keyword* `await`, JavaScript akan terus lanjut eksekusi kode seperti normal sehingga dapat menyebabkan hasil yang tak terduga. Ini terjadi karena bisa saja `fetch()` belum mendapatkan *response* dari server sehingga yang ada pada saat eksekusi hanya `Promise` yang *pending*. 
+
+### 3. Mengapa kita perlu menggunakan *decorator* `csrf_exempt` pada *view* yang akan digunakan untuk AJAX POST?
+Kita perlu menggunakan *decorator* `csrf_exempt` untuk *view* AJAX POST karena pada *form* kita, kita belum memasukkan *CSRF token*. Jika diperhatikan perbedaan antara *form* pada `create_product.html` dan *create product* yang baru ditambahkan, tidak ada field `{% csrf_token %}` pada form baru sehingga form ini tidak akan berhasil disimpan di server akibat tidak adanya token CSRF yang valid. Django secara *default* mewajibkan adanya *CSRF token* untuk setiap POST request. Dengan menggunakan `csrf_exempt`, kita menandakan *view* `create_product_ajax()` untuk tidak diperiksa oleh Django untuk token CSRF, sehingga memungkinkan AJAX POST untuk tetap berjalan tanpa memerlukan token CSRF.
+
+### 4. Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (*backend*) juga. Mengapa hal tersebut tidak dilakukan di *frontend* saja?
+Pembersihan data input pengguna perlu dilakukan di belakang (*backend*) juga karena pada tutorial, salah satu langkah yang dilakukan adalah mencoba memasukkan sintaks HTML `<script>` sebagai input untuk *form*. Sebelumnya, belum ada langkah pencegahan yang diterapkan sehingga *form* tersebut berhasil di-*submit* dan terjadilah XSS (*cross-site scripting*). Untuk mencegah data "kotor" yang berisi serangan XSS dijalankan setiap kali produk di-*load*, maka ditambahkan pembersihan data yang di-*load* di *frontend*. Namun, salah satu alasan mengapa ini tidak cukup adalah karena disediakan *endpoint* yaitu `/show_xml` dan `/show_json` untuk mengambil data dari *backend*. Jika kita tidak membersihkan data yang di-*submit*, mungkin kebanyakan pengguna akan aman-aman saja ketika menggunakan aplikasi web kita. Namun, ketika ada pengguna yang ingin melihat dan mengunduh data dari *backend*, maka mereka berpotensi mendapatkan potongan kode yang berbahaya. Oleh karena itu, diperlukan juga pembersihan data pada *backend* untuk mencegah kemungkinan ini. 
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+1. Pertama, saya menambah fungsi baru pada `views.py` yaitu `create_product_ajax()` yaitu versi AJAX untuk fungsi `create_product()` sebelumnya.
+2. Saya juga modifikasi fungsi `get_json()` dan `get_xml()` agar kedua fungsi dapat mengembalikan produk yang sesuai dengan *user* yang terautentikasi. Ini dilakukan agar kedua fungsi dapat digunakan untuk GET AJAX.
+3. Kemudian, saya menghubungkan *view* tersebut dengan aplikasi dengan menambah *path* baru di `urls.py`.
+4. Saya melakukan modifikasi terhadap template `main.html` dan mengubah cara penampilan *card*. Sekarang, *card* akan ditampilkan dengan AJAX secara asinkronus.
+5. Saya menambahkan sebuah *modal* untuk menambahkan produk secara asinkronus menggunakan AJAX lewat *endpoint* yang baru didefiniskan pada langkah sebelumnya. Modal ini dipasang *event listener* agar AJAX dapat berjalan ketika di-*submit* untuk melakukan POST ke server dan GET daftar produk baru.
+6. Untuk memastikan bahwa aplikasi saya aman dan data yang di-*submit* tidak berpotensi menyebabkan XSS, saya menambahkan `strip_tags()` pada *backend* dan `DOMPurify.sanitize()` untuk *frontend*. Kedua fungsi tersebut akan membersihkan input dari *user* yang berpotensi mengandung tag-tag HTML yang tidak seharusnya ada untuk mencegah terjadinya XSS pada aplikasi.
+
+🕛 **Terakhir di-*update*:** 4 Oktober 2024
+
+## 📜 Log Riwayat README
+
+<details>
+<summary><b>Tugas 5 (2/10/2024)</b></summary>
 
 ## 5️⃣ Tugas 5
 ### 1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
@@ -127,8 +155,7 @@ Masing-masing *layout* memiliki kegunaan dan *use case* tertentu. Keduanya sudah
 9. Pada template `main.html`, saya menambahkan *container responsive* untuk menampung semua *product card*, kemudian saya menambahkan *conditional* untuk menampilkan pesan dan gambar dari *static files* jika belum ada produk.
 
 🕛 **Terakhir di-*update*:** 2 Oktober 2024
-
-## 📜 Log Riwayat README
+</details>
 
 <details>
 <summary><b>Tugas 4 (25/9/2024)</b></summary>
@@ -266,7 +293,7 @@ path('json/<str:id>', show_json_by_id, name='show_json_by_id')
 <details>
 <summary><b>Tugas 2 (11/9/2024)</b></summary>
 
-## Tugas 2
+## 2️⃣ Tugas 2
 ### 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 1. Pertama, saya menginisiasi repositori lokal baru, kemudian saya membuat repositori di GitHub. Lalu, kedua repositori tersebut saya hubungkan lewat `git remote add origin https://github.com/HamletJr/jokes-come-true.git`.
 2. Setelah itu, saya menambahkan file `.gitignore` dan `README.md`.

@@ -3,27 +3,51 @@
 
 {% block meta %}
 <title>Jokes Come True</title>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
 {% endblock meta %}
 
 {% block content %}
 {% include 'navbar.html' %}
 
 <div class="content">
-  {% if not products %}
-  <div class="d-flex flex-column justify-content-center align-items-center">
-    <img src="{% static 'image/sad_image.png' %}" alt="Crying girl" class="img-fluid" width="100" height="100" />
-    <h3 class="title mt-3">You do not have any products!</h3>
+  <div id="product_cards"></div>
+  <div class="d-flex justify-content-center my-4">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add a new product</button>
   </div>
-  {% else %}
-  <div class="container">
-    <h1 class="title mb-3">Products</h1>
-    <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 g-4 mx-auto">
-      {% for product in products %}
-        {% include 'product_card.html' with product=product %}
-      {% endfor %}
+</div>
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5" id="addProductModalLabel">Create a new product</h1>
+        <button type="button" class="btn-close" id="closeAddModal" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addProductForm">
+          <div class="form-floating mb-3">
+            <input type="text" name="name" class="form-control form-control-border" id="name" placeholder="Product name" required>
+            <label for="name">Product name</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="number" name="price" class="form-control form-control-border" id="price" placeholder="Price" required></input>
+            <label for="price">Price</label>
+          </div>
+          <div class="form-floating mb-3">
+            <textarea type="text" name="description" class="form-control form-control-border" id="description" placeholder="Description" required></textarea>
+            <label for="description">Description</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="number" name="quantity" class="form-control form-control-border" id="quantity" placeholder="Quantity" required></textarea>
+            <label for="quantity">Quantity</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Add Product</button>
+        </div>
+      </form>
     </div>
   </div>
-  {% endif %}
 </div>
 
 <br />
@@ -31,4 +55,96 @@
 <div class="text-center d-flex flex-column align-items-center">
   <h5 class="title">Last login: {{ last_login }}</h5>
 </div>
+<script>
+  async function getProducts(){
+      return fetch("{% url 'main:show_json' %}").then(
+          (res) => res.json()
+      )
+  }
+  async function refreshProducts() {
+      document.getElementById("product_cards").innerHTML = "";
+      document.getElementById("product_cards").className = "";
+      const products = await getProducts();
+      let htmlString = "";
+      let classNameString = "";
+
+      if (products.length === 0) {
+          classNameString = "d-flex flex-column justify-content-center align-items-center";
+          htmlString = `
+              <img src="{% static 'image/sad_image.png' %}" alt="Crying girl" class="img-fluid" width="100" height="100" />
+              <h3 class="title mt-3">You do not have any products!</h3>
+          `;
+      }
+      else {
+          classNameString = "container";
+          htmlString = `
+              <h1 class="title mb-3">Products</h1>
+              <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 g-4 mx-auto">
+          `;
+          products.forEach((product) => {
+              const name = DOMPurify.sanitize(product.fields.name);
+              const description = DOMPurify.sanitize(product.fields.description);
+              htmlString += `
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="card border-secondary mb-3 h-100" style="width: 18rem; height: 20rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">${name}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">
+                            <img src="{% static 'image/jade-feather.png' %}" alt="Jade Feather" width="20" height="20" class="d-inline-block align-text-top">
+                            ${product.fields.price} Jade Feathers</h6>
+                            ${product.fields.quantity == 0 ? '<h6 class="card-subtitle mb-2 text-danger">' : (product.fields.quantity < 5 ? '<h6 class="card-subtitle mb-2 text-warning">' : '<h6 class="card-subtitle mb-2 text-success">')}
+                            ${product.fields.quantity == 0 ? "Out of stock!" : "Stock: " + product.fields.quantity}
+                            </h6>
+                        <p class="card-text">${description}</p>
+                        <div class="position-absolute bottom-0 start-50 translate-middle-x my-1">
+                            <a href="/edit_product/${product.pk}" class="card-link me-1"><button class="btn btn-primary" type="button">Edit</button></a>
+                            <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delete${product.pk}Modal">Delete</button>
+                        </div>
+                        <div class="modal fade" id="delete${product.pk}Modal" tabindex="-1" aria-labelledby="delete${product.pk}Modal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                            <div class="modal-header bg-danger">
+                                <h1 class="modal-title fs-5" id="delete${product.pk}Modal">Confirmation</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete ${name}?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a href="/delete_product/${product.pk}"><button type="button" class="btn btn-danger">Delete</button></a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>              
+                    </div>
+                </div>
+            </div>
+          `;
+          });
+          htmlString += "</div>";
+      }
+      
+      document.getElementById("product_cards").className = classNameString;
+      document.getElementById("product_cards").innerHTML = htmlString;
+  }
+  function addProduct() {
+      fetch("{% url 'main:create_ajax' %}", {
+        method: "POST",
+        body: new FormData(document.querySelector('#addProductForm')),
+      })
+      .then(response => refreshProducts())
+
+      document.getElementById("addProductForm").reset(); 
+      document.querySelector("#closeAddModal").click();
+
+      return false;
+  }
+  document.getElementById("addProductForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    addProduct();
+  })
+  refreshProducts();
+
+</script>
 {% endblock content %}
