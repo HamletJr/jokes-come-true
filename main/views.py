@@ -59,17 +59,27 @@ def create_product_ajax(request):
     return HttpResponse(b"CREATED", status=201)
 
 @csrf_exempt
-def create_mood_flutter(request):
+def create_product_flutter(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         product = Product.objects.create(
             user=request.user,
-            name=data["mood"],
+            name=data["name"],
             price=int(data["price"]),
             description=data["description"],
             quantity=int(data["quantity"]),
         )
         product.save()
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def delete_product_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        product = Product.objects.get(pk=data["id"])
+        product.delete()
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
